@@ -94,6 +94,7 @@ namespace graphic
             points = new ArrayList();
             segments = new ArrayList();
             lastGraphic = new ArrayList();
+            mouseDown = false;
         }
 
         private void frmDraw_Load(object sender, EventArgs e)
@@ -114,16 +115,16 @@ namespace graphic
                 if (points.Count == 2)
                 {
                     segments.Add(new Segment((Point)points[0], (Point)points[1]));
+                    points.Clear();
                 }
                 else if (points.Count >= 3)
                 {
                     for (int i = 1; i < points.Count; i++)
                         segments.Add(new Segment((Point)points[i - 1], (Point)points[i]));
                     segments.Add(new Segment((Point)points[0], (Point)points[points.Count - 1]));
+                    points.Clear();
+                    drawPolygon(segments);
                 }
-
-                points.Clear();
-                drawPolygon(segments);
             }
         }
 
@@ -320,6 +321,19 @@ namespace graphic
                     drawPoint((int)after.M[i][0], (int)after.M[i][1]);
                 }
             }
+        }
+
+        private bool mouseDown;
+        private void frmDraw_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+
+            
+        }
+
+        private void frmDraw_MouseUp(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

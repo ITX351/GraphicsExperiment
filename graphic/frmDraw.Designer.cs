@@ -82,7 +82,9 @@
             this.Text = "Draw";
             this.Load += new System.EventHandler(this.frmDraw_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.frmDraw_MouseClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmDraw_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmDraw_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmDraw_MouseUp);
             this.mnuMain.ResumeLayout(false);
             this.mnuMain.PerformLayout();
             this.ResumeLayout(false);

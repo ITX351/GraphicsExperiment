@@ -29,16 +29,16 @@ namespace graphic
 
             if (rdbX.Checked)
             {
-                m1.set3x3(1, 0, 0, 0, 1, 0, -allx / 2, 0, 1);
-                m2.set3x3(-1, 0, 0, 0, 1, 0, 0, 0, 1);
-                m3.set3x3(1, 0, 0, 0, 1, 0, allx / 2, 0, 1);
+                m1.set3x3(1, 0, 0, 0, 1, 0, 0, -ally / 2, 1);
+                m2.set3x3(1, 0, 0, 0, -1, 0, 0, 0, 1);
+                m3.set3x3(1, 0, 0, 0, 1, 0, 0, ally / 2, 1);
                 matrix = m1.Multiply(m2).Multiply(m3);
             }
             else if (rdbY.Checked)
             {
-                m1.set3x3(1, 0, 0, 0, 1, 0, 0, -ally / 2, 1);
-                m2.set3x3(1, 0, 0, 0, -1, 0, 0, 0, 1);
-                m3.set3x3(1, 0, 0, 0, 1, 0, 0, ally / 2, 1);
+                m1.set3x3(1, 0, 0, 0, 1, 0, -allx / 2, 0, 1);
+                m2.set3x3(-1, 0, 0, 0, 1, 0, 0, 0, 1);
+                m3.set3x3(1, 0, 0, 0, 1, 0, allx / 2, 0, 1);
                 matrix = m1.Multiply(m2).Multiply(m3);
             }
             else if (rdbO.Checked)
