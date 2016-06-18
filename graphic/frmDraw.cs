@@ -62,6 +62,34 @@ namespace graphic
                     b = tmp;
                 }
             }
+
+            public Point getXGreater()
+            {
+                if (a.X > b.X)
+                    return a;
+                return b;
+            }
+
+            public Point getXLess()
+            {
+                if (a.X < b.X)
+                    return a;
+                return b;
+            }
+
+            public Point getYGreater()
+            {
+                if (a.Y > b.Y)
+                    return a;
+                return b;
+            }
+
+            public Point getYLess()
+            {
+                if (a.Y < b.Y)
+                    return a;
+                return b;
+            }
         }
 
         class Node
@@ -116,6 +144,7 @@ namespace graphic
                 {
                     segments.Add(new Segment((Point)points[0], (Point)points[1]));
                     points.Clear();
+                    drawSegment((Segment)segments[0], Brushes.Black);
                 }
                 else if (points.Count >= 3)
                 {
@@ -132,9 +161,20 @@ namespace graphic
         {
             lblX.Text = "X: " + e.X.ToString();
             lblY.Text = "Y: " + e.Y.ToString();
+
+            if (mouseDown)
+            {
+                _drawPoint(x1, y1, Brushes.Red);
+            }
         }
 
-        private void drawPoint(int _x, int _y, int[] m = null)
+        private void _drawPoint(int x, int y, Brush color)
+        {
+            g.DrawRectangle(new Pen(color, 2),
+                new Rectangle(new System.Drawing.Point(x - 1, y - 1), new Size(1, 1)));
+        }
+
+        private void drawPoint(int _x, int _y, Brush color, int[] m = null)
         {
             int x, y;
             if (m == null)
@@ -146,12 +186,10 @@ namespace graphic
                 x = _x * m[0] + _y * m[2]; y = _x * m[1] + _y * m[3];
             }
             lastGraphic.Add(new Point(x, y));
-
-            g.DrawRectangle(new Pen(Brushes.Black, 2), 
-                new Rectangle(new System.Drawing.Point(x - 1, y - 1), new Size(1, 1)));
+            _drawPoint(x, y, color);
         }
 
-        private void drawSegment(Segment seg)
+        private void drawSegment(Segment seg, Brush color)
         {
             Point p1 = new Point(seg.a), p2 = new Point(seg.b);
 
@@ -165,7 +203,7 @@ namespace graphic
                 }
 
                 for (int y = p1.Y; y <= p2.Y; y++)
-                    drawPoint(p1.X, y);
+                    drawPoint(p1.X, y, color);
             }
             else if (p1.Y == p2.Y)
             {
@@ -177,7 +215,7 @@ namespace graphic
                 }
 
                 for (int x = p1.X; x <= p2.X; x++)
-                    drawPoint(x, p1.Y);
+                    drawPoint(x, p1.Y, color);
             }
             else
             {
@@ -219,7 +257,7 @@ namespace graphic
 
                 for (int x = p1.X; x <= p2.X; x++)
                 {
-                    drawPoint(x, y, m);
+                    drawPoint(x, y, color, m);
                     if (d < 0)
                     {
                         y++; d += deta2;
@@ -233,7 +271,7 @@ namespace graphic
         private void drawPolygon(ArrayList segments)
         {
             foreach (Segment seg in segments)
-                drawSegment(seg);
+                drawSegment(seg, Brushes.Black);
 
             System.Threading.Thread.Sleep(500);
 
@@ -293,7 +331,7 @@ namespace graphic
                     }
 
                     for (int x = (int)now.x0; x < now.next.x0; x++)
-                        drawPoint(x, y);
+                        drawPoint(x, y, Brushes.Black);
                 }
             }
         }
@@ -317,23 +355,172 @@ namespace graphic
                 Matrix after = origin.Multiply(op.matrix);
                 lastGraphic.Clear();
                 for (int i = 0; i < after.x; i++)
-                {
-                    drawPoint((int)after.M[i][0], (int)after.M[i][1]);
-                }
+                    drawPoint((int)after.M[i][0], (int)after.M[i][1], Brushes.Black);
             }
         }
 
         private bool mouseDown;
+        private int x1, y1, x2, y2;
         private void frmDraw_MouseDown(object sender, MouseEventArgs e)
         {
             mouseDown = true;
-
-            
+            x1 = e.X; y1 = e.Y;
         }
 
         private void frmDraw_MouseUp(object sender, MouseEventArgs e)
         {
+            mouseDown = false;
+            x2 = e.X; y2 = e.Y;
 
+            if (x1 == x2 && y1 == y2)
+                return;
+
+            _drawPoint(x2, y2, Brushes.Red);
+
+            if (x1 > x2)
+            {
+                int tmp = x2;
+                x2 = x1;
+                x1 = tmp;
+            }
+            if (y1 > y2)
+            {
+                int tmp = y2;
+                y2 = y1;
+                y1 = tmp;
+            }
+
+            g.DrawRectangle(new Pen(Brushes.Purple, 2),
+                new Rectangle(new System.Drawing.Point(x1, y1), new Size(x2 - x1, y2 - y1)));
+
+            if (segments.Count == 0)
+                return;
+
+            Segment seg = (Segment)segments[0];
+            Point p1 = seg.a, p2 = seg.b;
+            int c1 = getCode(p1), c2 = getCode(p2);
+
+            if (c1 == 0 && c2 == 0) // 都在窗口内
+            {
+                drawSegment(seg, Brushes.Blue);
+                return;
+            }
+            if ((c1 & c2) > 0)
+            {
+                return;
+            }
+
+            Point cx1 = calculateCross(seg, x1, -1),
+                cx2 = calculateCross(seg, x2, -1),
+                cy1 = calculateCross(seg, -1, y1),
+                cy2 = calculateCross(seg, -1, y2);
+            Segment nseg;
+
+            if (cx1 == null && cx2 == null && cy1 == null && cy2 == null)
+                return;
+            else if (cx1 != null && cx2 == null && cy1 == null && cy2 == null)
+                nseg = new Segment(cx1, seg.getXGreater());
+            else if (cx1 == null && cx2 != null && cy1 == null && cy2 == null)
+                nseg = new Segment(cx2, seg.getXLess());
+            else if (cx1 == null && cx2 == null && cy1 != null && cy2 == null)
+                nseg = new Segment(cy1, seg.getYGreater());
+            else if (cx1 == null && cx2 == null && cy1 == null && cy2 != null)
+                nseg = new Segment(cy2, seg.getYLess());
+            else
+            {
+                Point np1 = null, np2 = null;
+                if (cx1 != null)
+                {
+                    np1 = cx1;
+                }
+                if (cx2 != null)
+                {
+                    if (np1 == null)
+                        np1 = cx2;
+                    else
+                        np2 = cx2;
+                }
+                if (cy1 != null)
+                {
+                    if (np1 == null)
+                        np1 = cy1;
+                    else
+                        np2 = cy1;
+                }
+                if (cy2 != null)
+                {
+                    if (np1 == null)
+                        np1 = cy2;
+                    else
+                        np2 = cy2;
+                }
+                nseg = new Segment(np1, np2);
+            }
+            drawSegment(nseg, Brushes.Blue);
+        }
+
+        private int getCode(Point point)
+        {
+            int ret = 0;
+            if (point.X < x1)
+                ret |= 1;
+            if (point.X > x2)
+                ret |= 2;
+            if (point.Y > y2)
+                ret |= 4;
+            if (point.Y < y1)
+                ret |= 8;
+            return ret;
+        }
+
+        private Point calculateCross(Segment seg, int X, int Y)
+        {
+            Point ret = null;
+
+            Point p1 = seg.a, p2 = seg.b;
+            int a = p1.X, b = p1.Y, c = p2.X, d = p2.Y;
+
+            int nx = -1, ny = -1;
+
+            if (X >= 0)
+            {
+                nx = X;
+                ny = (int)(1.0 * (X - a) * (d - b) / (c - a) + b + .5);
+            }
+            else if (Y >= 0)
+            {
+                nx = (int)(1.0 * (Y - b) * (c - a) / (d - b) + a + .5);
+                ny = Y;
+            }
+
+            if (a > c)
+            {
+                int tmp = a;
+                a = c;
+                c = tmp;
+            }
+
+            if (b > d)
+            {
+                int tmp = b;
+                b = d;
+                d = tmp;
+            }
+
+            if (nx >= a && nx <= c && ny >= b && ny <= d && 
+                nx >= x1 - 1 && nx <= x2 + 1 && ny >= y1 - 1 && ny <= y2 + 1)
+                ret = new Point(nx, ny);
+            return ret;
+        }
+
+        private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            g.Clear(this.BackColor);
+
+            points.Clear();
+            segments.Clear();
+            lastGraphic.Clear();
+            mouseDown = false;
         }
     }
 }

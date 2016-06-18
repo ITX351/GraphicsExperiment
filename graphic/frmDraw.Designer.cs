@@ -30,6 +30,7 @@
         {
             this.mnuMain = new System.Windows.Forms.MenuStrip();
             this.OperationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblX = new System.Windows.Forms.Label();
             this.lblY = new System.Windows.Forms.Label();
             this.mnuMain.SuspendLayout();
@@ -38,7 +39,8 @@
             // mnuMain
             // 
             this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OperationToolStripMenuItem});
+            this.OperationToolStripMenuItem,
+            this.ClearToolStripMenuItem});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
             this.mnuMain.Size = new System.Drawing.Size(717, 25);
@@ -50,6 +52,13 @@
             this.OperationToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.OperationToolStripMenuItem.Text = "变换";
             this.OperationToolStripMenuItem.Click += new System.EventHandler(this.OperationToolStripMenuItem_Click);
+            // 
+            // ClearToolStripMenuItem
+            // 
+            this.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem";
+            this.ClearToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.ClearToolStripMenuItem.Text = "清空";
+            this.ClearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
             // lblX
             // 
@@ -98,6 +107,7 @@
         private System.Windows.Forms.ToolStripMenuItem OperationToolStripMenuItem;
         private System.Windows.Forms.Label lblX;
         private System.Windows.Forms.Label lblY;
+        private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
     }
 }
 
