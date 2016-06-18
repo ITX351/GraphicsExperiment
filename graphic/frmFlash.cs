@@ -31,8 +31,6 @@ namespace graphic
             ax = this.Size.Width - 20;
             ay = this.Size.Height - 43;
             g = this.CreateGraphics();
-            g.DrawRectangle(new Pen(Brushes.Black, 2),
-                new Rectangle(new System.Drawing.Point(0, 0), new Size(ax, ay)));
         }
 
         private void tmrAuto_Tick(object sender, EventArgs e)
