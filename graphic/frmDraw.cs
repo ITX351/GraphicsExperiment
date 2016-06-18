@@ -405,7 +405,7 @@ namespace graphic
                 drawSegment(seg, Brushes.Blue);
                 return;
             }
-            if ((c1 & c2) > 0)
+            if ((c1 & c2) > 0) // 明显在窗口外
             {
                 return;
             }
