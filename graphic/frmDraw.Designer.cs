@@ -33,6 +33,7 @@
             this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblX = new System.Windows.Forms.Label();
             this.lblY = new System.Windows.Forms.Label();
+            this.flashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,7 +41,8 @@
             // 
             this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OperationToolStripMenuItem,
-            this.ClearToolStripMenuItem});
+            this.ClearToolStripMenuItem,
+            this.flashToolStripMenuItem});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
             this.mnuMain.Size = new System.Drawing.Size(717, 25);
@@ -78,6 +80,13 @@
             this.lblY.TabIndex = 2;
             this.lblY.Text = "Y:";
             // 
+            // flashToolStripMenuItem
+            // 
+            this.flashToolStripMenuItem.Name = "flashToolStripMenuItem";
+            this.flashToolStripMenuItem.Size = new System.Drawing.Size(49, 21);
+            this.flashToolStripMenuItem.Text = "Flash";
+            this.flashToolStripMenuItem.Click += new System.EventHandler(this.flashToolStripMenuItem_Click);
+            // 
             // frmDraw
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -108,6 +117,7 @@
         private System.Windows.Forms.Label lblX;
         private System.Windows.Forms.Label lblY;
         private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flashToolStripMenuItem;
     }
 }
 

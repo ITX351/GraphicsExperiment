@@ -522,5 +522,11 @@ namespace graphic
             lastGraphic.Clear();
             mouseDown = false;
         }
+
+        private void flashToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmFlash flash = new frmFlash();
+            flash.Show();
+        }
     }
 }
