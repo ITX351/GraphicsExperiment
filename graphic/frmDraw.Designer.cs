@@ -31,9 +31,9 @@
             this.mnuMain = new System.Windows.Forms.MenuStrip();
             this.OperationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblX = new System.Windows.Forms.Label();
             this.lblY = new System.Windows.Forms.Label();
-            this.flashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +62,13 @@
             this.ClearToolStripMenuItem.Text = "清空";
             this.ClearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
+            // flashToolStripMenuItem
+            // 
+            this.flashToolStripMenuItem.Name = "flashToolStripMenuItem";
+            this.flashToolStripMenuItem.Size = new System.Drawing.Size(49, 21);
+            this.flashToolStripMenuItem.Text = "Flash";
+            this.flashToolStripMenuItem.Click += new System.EventHandler(this.flashToolStripMenuItem_Click);
+            // 
             // lblX
             // 
             this.lblX.AutoSize = true;
@@ -79,13 +86,6 @@
             this.lblY.Size = new System.Drawing.Size(17, 12);
             this.lblY.TabIndex = 2;
             this.lblY.Text = "Y:";
-            // 
-            // flashToolStripMenuItem
-            // 
-            this.flashToolStripMenuItem.Name = "flashToolStripMenuItem";
-            this.flashToolStripMenuItem.Size = new System.Drawing.Size(49, 21);
-            this.flashToolStripMenuItem.Text = "Flash";
-            this.flashToolStripMenuItem.Click += new System.EventHandler(this.flashToolStripMenuItem_Click);
             // 
             // frmDraw
             // 
